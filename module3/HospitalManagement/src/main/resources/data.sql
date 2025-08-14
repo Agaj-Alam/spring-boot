@@ -10,3 +10,14 @@ VALUES
 ('Vikas Mehta','male','1992-12-05','vikasmehta@example.com','AB_POSITIVE'),
 ('Shreya Nair','female','1999-01-20','shreyanair@example.com','B_POSITIVE'),
 ('Manoj Patel','male','1994-06-08','manojpatel@example.com','O_POSITIVE');
+
+
+INSERT INTO doctor (name, specialization, email)
+VALUES
+('Dr. Rakesh Mehata', 'Cardiology', 'rakesh.mehta@gmail.com'),
+('Dr. Anjali Sharma', 'Neurology', 'anjali.sharma@gmail.com'),
+('Dr. Amit Verma', 'Orthopedics', 'amit.verma@gmail.com'),
+('Dr. Priya Nair', 'Dermatology', 'priya.nair@gmail.com'),
+('Dr. Rajesh Khanna', 'Pediatrics', 'rajesh.khanna@gmail.com'),
+('Dr. Sneha Gupta', 'Gynecology', 'sneha.gupta@gmail.com'),
+('Dr. Vinod Patil', 'ENT', 'vinod.patil@gmail.com');
