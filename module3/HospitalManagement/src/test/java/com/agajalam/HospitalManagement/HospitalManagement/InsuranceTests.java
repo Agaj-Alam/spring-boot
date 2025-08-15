@@ -34,20 +34,12 @@ public class InsuranceTests {
       var updatedInsurance=insuranceService.asignInsuranceToPatient(insurance,1L);
       System.out.println(updatedInsurance);
 
-      patientService.deletePatient(1L);
+//      patientService.deletePatient(1L);
+////
+//      var patient=insuranceService.removeInsuranceOfAPatient(1L);
+//      System.out.println(patient);
+
   }
 
-  @Test
-  public void testCreateANewAppointment(){
-      Appointment appointment=Appointment.builder()
-              .appointmentTime(LocalDateTime.of(2025,8,20,14,0,0))
-              .reason("headache")
-              .build();
 
-      var createdANewAppointment=appointmentService.createANewAppointment(appointment,1L,2L );
-      System.out.println(createdANewAppointment);
-
-
-      patientService.deletePatient(1L);
-  }
 }

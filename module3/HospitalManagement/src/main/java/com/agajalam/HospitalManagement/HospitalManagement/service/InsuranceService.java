@@ -26,5 +26,25 @@ public class InsuranceService {
         return insurance;
     }
 
+    @Transactional
+    public Insurance upadateInsuranceOfAPatient(Insurance insurance,Long patientId){
+        Patient patient=patientRepository.findById(patientId).orElseThrow();
+
+        patient.setInsurance(insurance); //dirty patient
+
+        insurance.setPatient(patient); // optional (for bidirectional mapping)
+
+        return insurance;
+    }
+
+    @Transactional
+    public Patient removeInsuranceOfAPatient(Long patientId){
+        Patient patient=patientRepository.findById(patientId).orElseThrow();
+
+        patient.setInsurance(null); //dirty patient
+
+        return patient;
+    }
+
 
 }

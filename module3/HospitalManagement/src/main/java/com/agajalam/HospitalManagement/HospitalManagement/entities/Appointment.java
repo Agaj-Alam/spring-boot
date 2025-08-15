@@ -32,7 +32,7 @@ public class Appointment {
     @JsonIgnore
     private Patient patient;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     @JoinColumn(nullable = false)
     @JsonIgnore
