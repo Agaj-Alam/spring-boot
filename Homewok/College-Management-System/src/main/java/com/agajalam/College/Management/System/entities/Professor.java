@@ -23,6 +23,11 @@ public class Professor {
     private String title;
 
     @ManyToMany
+    @JoinTable(
+            name = "professor_student",
+            joinColumns = @JoinColumn(name = "professor_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
     private List<Student> students =new ArrayList<>();
 
 

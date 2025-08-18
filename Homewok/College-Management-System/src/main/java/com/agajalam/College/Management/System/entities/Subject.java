@@ -19,10 +19,11 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "")
+    @JoinColumn(name = "professor_id")
     private Professor professor;
 
     @ManyToMany(mappedBy ="subjects")

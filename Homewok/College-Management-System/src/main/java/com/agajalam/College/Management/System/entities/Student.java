@@ -1,5 +1,6 @@
 package com.agajalam.College.Management.System.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "students")
     private List<Professor> professors=new ArrayList<>();
 
     @ManyToMany
@@ -31,10 +32,11 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
+    @JsonIgnore
     private List<Subject> subjects=new ArrayList<>();
 
 
-
+    @JsonIgnore
     @OneToOne(mappedBy = "student" ,cascade = CascadeType.ALL,orphanRemoval = true)
     private AdmissionRecord admissionRecord;  //inverse side
 }

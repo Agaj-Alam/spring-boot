@@ -16,7 +16,7 @@ public class Guest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne 
     @JoinColumn(name = "uesr_id")
     private User user;
 
