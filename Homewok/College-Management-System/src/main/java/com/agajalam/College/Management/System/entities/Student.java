@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,19 +26,18 @@ public class Student {
     private String name;
 
     @ManyToMany(mappedBy = "students")
-    private List<Professor> professors=new ArrayList<>();
+    private Set<Professor> professors=new HashSet<>();
 
     @ManyToMany
     @JoinTable(
-            name = "student_subject" ,
+            name = "student_subject",   // explicit join table
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
-    @JsonIgnore
-    private List<Subject> subjects=new ArrayList<>();
+    private Set<Subject> subjects = new HashSet<>();
 
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToOne(mappedBy = "student" ,cascade = CascadeType.ALL,orphanRemoval = true)
     private AdmissionRecord admissionRecord;  //inverse side
 }
