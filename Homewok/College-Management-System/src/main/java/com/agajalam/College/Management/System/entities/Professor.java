@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,10 +30,10 @@ public class Professor {
             joinColumns = @JoinColumn(name = "professor_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
-    private List<Student> students =new ArrayList<>();
+    private Set<Student> students =new HashSet<>();
 
 
     @OneToMany(mappedBy = "professor" )
-    private List<Subject>subjects=new ArrayList<>();
+    private Set<Subject>subjects=new HashSet<>();
 
 }

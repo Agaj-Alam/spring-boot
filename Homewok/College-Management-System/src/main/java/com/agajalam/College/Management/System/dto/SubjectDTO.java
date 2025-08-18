@@ -1,22 +1,24 @@
 package com.agajalam.College.Management.System.dto;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 
-import com.agajalam.College.Management.System.entities.AdmissionRecord;
-import com.agajalam.College.Management.System.entities.Professor;
-import com.agajalam.College.Management.System.entities.Student;
-import com.agajalam.College.Management.System.entities.Subject;
-import jakarta.persistence.*;
-import lombok.Data;
+import java.util.Set;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id"
+//)
 public class SubjectDTO {
     private Long id;
-
     private String title;
 
-    private Professor professor;
+//    @JsonIgnore
+    private ProfessorSummaryDTO professors;
 
-    private List<String> students=new ArrayList<>();
+//    @JsonIgnore
+    private Set<StudentSummaryDTO> students;
 }

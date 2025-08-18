@@ -4,21 +4,18 @@ import com.agajalam.College.Management.System.dto.StudentDTO;
 import com.agajalam.College.Management.System.entities.Student;
 import com.agajalam.College.Management.System.service.StudentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/college")
-public class CollegeController {
+@RequestMapping(path = "/students")
+public class StudentController {
 
     private final StudentService studentService;
 
@@ -31,7 +28,33 @@ public class CollegeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<StudentDTO>> getAllStudents(){
+    public ResponseEntity<Set<StudentDTO>>getAllStudents(){
         return ResponseEntity.ok(studentService.getAllStudents());
     }
+
+
+
+    @PostMapping
+    public ResponseEntity<StudentDTO> createNewStudent(@RequestBody StudentDTO dto) {
+        StudentDTO savedStudent = studentService.createNewStudent(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedStudent);
+
+        // postman se bhejne wala data
+//        {
+//            "name": "Sahil",
+//                "professors": [
+//            { "id": 1 },
+//            { "id": 2 }
+//  ],
+//            "subjects": [
+//            { "id": 3 },
+//            { "id": 4 }
+//  ],
+//            "admissionRecord": {
+//            "fees": 20000
+//        }
+//        }
+    }
+
+
 }
