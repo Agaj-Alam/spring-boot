@@ -1,6 +1,6 @@
-package com.RESTfulAPIs.Weak2.advices;
+package com.codingShullte.Projects.airBnbApp.advices;
 
-import com.RESTfulAPIs.Weak2.exceptions.ResourceNotFoundException;
+import com.codingShullte.Projects.airBnbApp.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice

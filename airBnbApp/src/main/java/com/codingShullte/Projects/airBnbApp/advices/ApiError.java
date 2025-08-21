@@ -1,4 +1,4 @@
-package com.RESTfulAPIs.Weak2.advices;
+package com.codingShullte.Projects.airBnbApp.advices;
 
 import lombok.Builder;
 import lombok.Data;
