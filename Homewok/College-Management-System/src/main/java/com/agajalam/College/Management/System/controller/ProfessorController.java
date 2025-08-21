@@ -5,11 +5,9 @@ import com.agajalam.College.Management.System.service.ProfessorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -23,11 +21,4 @@ public class ProfessorController {
         return ResponseEntity.ok(professorService.getAllProfessors());
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<ProfessorDTO> getProfessorById(@PathVariable Long id){
-        Optional<ProfessorDTO> professorDTO=professorService.getProfessorById(id);
-        return professorDTO
-                .map(professorDTO1 -> ResponseEntity.ok(professorDTO1))
-                .orElseThrow();
-    }
 }
