@@ -2,6 +2,7 @@ package com.agajalam.College.Management.System.controller;
 
 import com.agajalam.College.Management.System.dto.StudentDTO;
 import com.agajalam.College.Management.System.entities.Student;
+import com.agajalam.College.Management.System.repository.StudentRepository;
 import com.agajalam.College.Management.System.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,6 +20,7 @@ import java.util.Set;
 public class StudentController {
 
     private final StudentService studentService;
+    private final StudentRepository studentRepository;
 
     @GetMapping(path = "/{studentId}")
     public ResponseEntity<StudentDTO> getStudentById(@PathVariable Long studentId){
@@ -56,5 +59,20 @@ public class StudentController {
 //        }
     }
 
+    @PutMapping("/{studentId}")
+    public ResponseEntity<StudentDTO> updateStudentById(@PathVariable Long studentId,@RequestBody Student updatedStudent){
+        StudentDTO studentDTO=studentService.updateStudentById(studentId,updatedStudent);
+        return ResponseEntity.ok(studentDTO);
+    }
+
+    @PatchMapping("/{studentId}/fees")
+    public ResponseEntity<StudentDTO> updateStudentFees(
+            @PathVariable Long studentId,
+            @RequestBody Map<String, Integer> requestBody
+    ) {
+        Integer fees = requestBody.get("fees");
+        StudentDTO updatedStudent = studentService.updateStudentFees(studentId, fees);
+        return ResponseEntity.ok(updatedStudent);
+    }
 
 }

@@ -6,6 +6,7 @@ import com.agajalam.College.Management.System.entities.AdmissionRecord;
 import com.agajalam.College.Management.System.entities.Professor;
 import com.agajalam.College.Management.System.entities.Student;
 import com.agajalam.College.Management.System.entities.Subject;
+import com.agajalam.College.Management.System.exception.ResourceNotFoundException;
 import com.agajalam.College.Management.System.repository.AdmissionRecordRepository;
 import com.agajalam.College.Management.System.repository.ProfessorRepository;
 import com.agajalam.College.Management.System.repository.StudentRepository;
@@ -62,12 +63,7 @@ public class StudentService {
                     .collect(Collectors.toSet());
             student.setSubjects(subjects);
         }
-//
-//        if (dto.getAdmissionRecord() != null) {
-//            AdmissionRecord newRecord = new AdmissionRecord();
-//            newRecord.setFees(dto.getAdmissionRecord().getFees());
-//            student.setAdmissionRecord(newRecord);
-//        }
+
 
         if (dto.getAdmissionRecord() != null) {
             AdmissionRecord newRecord = new AdmissionRecord();
@@ -80,6 +76,55 @@ public class StudentService {
 
         Student savedStudentEntity=studentRepository.save(student);
         return modelMapper.map(savedStudentEntity,StudentDTO.class);
+    }
+
+    public StudentDTO updateStudentById(Long studentId,Student updatedStudent){
+        Student student=studentRepository.findById(studentId).orElseThrow(()->new ResourceNotFoundException("student not found with id : "+studentId));
+        student.setName(updatedStudent.getName());
+
+        if (updatedStudent.getSubjects() != null) {
+            Set<Subject> subjects = updatedStudent.getSubjects().stream()
+                    .map(s -> subjectRepository.findById(s.getId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Subject not found with id : " + s.getId())))
+                    .collect(Collectors.toSet());
+            student.setSubjects(subjects);
+        }
+        if (updatedStudent.getProfessors() != null) {
+            Set<Professor> professors = updatedStudent.getProfessors().stream()
+                    .map(p -> professorRepository.findById(p.getId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Professor not found with id : " + p.getId())))
+                    .collect(Collectors.toSet());
+            student.setProfessors(professors);
+        }
+        if (updatedStudent.getAdmissionRecord() != null) {
+            AdmissionRecord record = admissionRecordRepository.findById(updatedStudent.getAdmissionRecord().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("AdmissionRecord not found with id : "
+                            + updatedStudent.getAdmissionRecord().getId()));
+
+            // update the fields you allow to change
+            record.setFees(updatedStudent.getAdmissionRecord().getFees());
+
+            student.setAdmissionRecord(record);
+        }
+
+        Student saved=studentRepository.save(student);
+        return modelMapper.map(saved,StudentDTO.class);
+    }
+
+
+
+    public StudentDTO updateStudentFees(Long studentId,Integer newFess){
+        Student student=studentRepository.findById(studentId)
+                .orElseThrow(()->new ResourceNotFoundException("student not found with id: "+studentId));
+
+        AdmissionRecord record=student.getAdmissionRecord();
+        if(record==null){
+            throw new ResourceNotFoundException("AdmissionRecord not found for student with id : " + studentId);
+        }
+
+        record.setFees(newFess);
+        Student saved=studentRepository.save(student);
+        return modelMapper.map(saved,StudentDTO.class);
     }
 
 }

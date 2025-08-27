@@ -12,10 +12,7 @@ import lombok.Data;
 import org.antlr.v4.runtime.misc.NotNull;
 
 @Data
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id"
-//)
+
 public class AdmissionRecordDTO {
 
     private Long id;

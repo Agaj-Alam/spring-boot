@@ -64,16 +64,22 @@ public class HotelServiceImpl implements HotelService{
     }
 
     @Override
+    @Transactional
     public void deleteHotelById(Long id) {
-      boolean exists=hotelRepository.existsById(id);
-      if(!exists)throw new ResourceNotFoundException("Hotel not found with id: "+id);
+        Hotel hotel=hotelRepository
+                .findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("Hotel not found with id "+id));
 
       hotelRepository.deleteById(id);
-      // TODO : delete  the future inventories for this hotel
+      // thi is for deleting inventory
+        for(Room room:hotel.getRooms()){
+            inventoryService.deleteFutureInventories(room);
+        }
 
     }
 
     @Override
+    @Transactional
     public void activateHotel(Long hotelId) {
         Hotel hotel=hotelRepository
                 .findById(hotelId)
