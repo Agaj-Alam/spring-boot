@@ -1,4 +1,4 @@
-package com.agajalam.prod_ready_features;
+package com.agajalam.prod_ready_features.prod_ready_features;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
