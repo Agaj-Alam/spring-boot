@@ -19,13 +19,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "/employees")
 public class EmployeeController {
-
-//    @GetMapping(path="/getSecretMessage")
-//    public String getMySecrectMessage(){
-//        return " Secret message: now I am becoming death";
-//    }
-
-
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
