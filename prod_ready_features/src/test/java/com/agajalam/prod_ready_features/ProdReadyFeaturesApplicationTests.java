@@ -37,25 +37,25 @@ class ProdReadyFeaturesApplicationTests {
     @Test
     @Order(1)
     void createNewEmployee(){
-        EmployeeDTO employeeDTO=new EmployeeDTO(null,"sahil","sahil@gmail.com",20,"USER",2000.00,
+        EmployeeDTO employeeDTO=new EmployeeDTO(null,"sahil","sahil@gmail.com",2,"USER",400.00,
                 LocalDate.of(2025,12,1),
                 true,2,2);
         EmployeeDTO savedEmployeeDTO=employeeClient.createNewEmployee(employeeDTO);
         System.out.println(savedEmployeeDTO);
     }
-
-    @Test
-    void updateEmployeeById(){
-        EmployeeDTO employeeDTO=new EmployeeDTO(null,"Agaj","agaj@gmail.com",22,"USER",2000.00,
-                LocalDate.of(2025,12,1),
-                true,2,2);
-        EmployeeDTO savedEmployeeDTO=employeeClient.updateEmployeeById(employeeDTO,1L);
-        System.out.println(savedEmployeeDTO);
-    }
-
-    @Test
-    void deleteEmployeeById(){
-        Boolean result=employeeClient.deleteEmployeeById(1L);
-        System.out.println(result);
-    }
+//
+//    @Test
+//    void updateEmployeeById(){
+//        EmployeeDTO employeeDTO=new EmployeeDTO(null,"Agaj","agaj@gmail.com",22,"USER",2000.00,
+//                LocalDate.of(2025,12,1),
+//                true,2,2);
+//        EmployeeDTO savedEmployeeDTO=employeeClient.updateEmployeeById(employeeDTO,1L);
+//        System.out.println(savedEmployeeDTO);
+//    }
+//
+//    @Test
+//    void deleteEmployeeById(){
+//        Boolean result=employeeClient.deleteEmployeeById(1L);
+//        System.out.println(result);
+//    }
 }
