@@ -37,7 +37,7 @@ class ProdReadyFeaturesApplicationTests {
     @Test
     @Order(1)
     void createNewEmployee(){
-        EmployeeDTO employeeDTO=new EmployeeDTO(null,"sahil","sahil@gmail.com",2,"USER",400.00,
+        EmployeeDTO employeeDTO=new EmployeeDTO(null,"sahil","sahil@gmail.com",2,"USER",2000.00,
                 LocalDate.of(2025,12,1),
                 true,2,2);
         EmployeeDTO savedEmployeeDTO=employeeClient.createNewEmployee(employeeDTO);
