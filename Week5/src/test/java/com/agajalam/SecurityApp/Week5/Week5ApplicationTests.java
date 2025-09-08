@@ -13,7 +13,7 @@ class Week5ApplicationTests {
 
 	@Test
 	void contextLoads() {
-        User user=new User(4L,"agajalam@gmail.com","1234");
+        User user=new User(4L,"agajalam@gmail.com","1234","Agaj");
         String token=jwtService.generateToken(user);
         System.out.println(token);
 
