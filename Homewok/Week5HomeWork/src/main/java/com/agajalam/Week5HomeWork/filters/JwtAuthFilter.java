@@ -1,6 +1,8 @@
 package com.agajalam.Week5HomeWork.filters;
 
+import com.agajalam.Week5HomeWork.entities.SessionEntity;
 import com.agajalam.Week5HomeWork.entities.User;
+import com.agajalam.Week5HomeWork.repositories.SessionRepository;
 import com.agajalam.Week5HomeWork.services.JwtService;
 import com.agajalam.Week5HomeWork.services.UserService;
 import jakarta.servlet.FilterChain;
@@ -18,12 +20,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserService userService;
+    private final SessionRepository sessionRepository;
 
     @Autowired
     @Qualifier("handlerExceptionResolver")
@@ -42,7 +46,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String token=requestTokenHolder.split("Bearer ")[1];
             Long userId=jwtService.getUserIdFromToken(token);
 
-            if(userId !=null || SecurityContextHolder.getContext().getAuthentication()==null){
+            //check DB if this token is still valid   *this is for sessionEntity
+            Optional<SessionEntity>sessionOpt=sessionRepository.findByUserId(userId);
+            if(sessionOpt.isEmpty() || !sessionOpt.get().getToken().equals(token)){
+                throw new RuntimeException("Invalid or expired session. Please login again. ");
+            }
+
+
+            if(userId !=null && SecurityContextHolder.getContext().getAuthentication()==null){
                 User user=userService.getUserById(userId);
                 UsernamePasswordAuthenticationToken authenticationToken=
                         new UsernamePasswordAuthenticationToken(null,null);
@@ -53,7 +64,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request,response);
         }catch(Exception e){
-                handlerExceptionResolver.resolveException(request,response,null,null);
+                handlerExceptionResolver.resolveException(request,response,null,e);
         }
     }
 }
