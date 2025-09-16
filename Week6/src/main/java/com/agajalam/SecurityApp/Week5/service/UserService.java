@@ -7,6 +7,7 @@ import com.agajalam.SecurityApp.Week5.exceptions.ResourceNotFoundException;
 import com.agajalam.SecurityApp.Week5.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.support.BeanDefinitionOverrideException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,6 +35,9 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(()->new BadCredentialsException("user  with Id "+userId+"not found"));
     }
 
+    public User getUerByEmail(String email){
+        return userRepository.findByEmail(email).orElse(null);
+    }
     public UserDTO signUp(SignUpDTO signUpDTO) {
         Optional<User>user=userRepository.findByEmail(signUpDTO.getEmail());
         if(user.isPresent()){
@@ -47,5 +51,9 @@ public class UserService implements UserDetailsService {
 
         User savedUser=userRepository.save(toBeCreatedUser);
         return modelMapper.map(savedUser,UserDTO.class);
+    }
+
+    public User save(User newUser) {
+        return userRepository.save(newUser);
     }
 }

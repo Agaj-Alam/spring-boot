@@ -1,0 +1,16 @@
+spring:
+  security:
+   oauth2:
+     client:
+       registration:
+         google:
+           client-id: // from google cloud console
+           client-secret:
+
+         facebook:
+           client-id: //from facebook cloud console
+           client-secret:
+
+         github:
+           client-id: // from github settings-> developer option
+           client-secret:
