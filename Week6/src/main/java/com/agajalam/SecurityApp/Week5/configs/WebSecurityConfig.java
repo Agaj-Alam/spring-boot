@@ -1,5 +1,6 @@
 package com.agajalam.SecurityApp.Week5.configs;
 
+import com.agajalam.SecurityApp.Week5.entities.enums.Role;
 import com.agajalam.SecurityApp.Week5.filters.JwtAuthFilter;
 import com.agajalam.SecurityApp.Week5.handlers.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -20,19 +21,24 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.agajalam.SecurityApp.Week5.entities.enums.Role.ADMIN;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private static final String[] publicRoutes={
+            "/error","/auth/**","/home.html"
+    };
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
         httpSecurity
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/posts","/error","/auth/**","/home.html").permitAll()
-//                        .requestMatchers("/posts/**").authenticated();
+                        .requestMatchers(publicRoutes).permitAll()
+                        .requestMatchers("/posts/**").hasRole(ADMIN.name())
                         .anyRequest().authenticated())
                 .csrf(csrfConfig->csrfConfig.disable())
                 .sessionManagement(sessionConfig->sessionConfig
