@@ -10,5 +10,5 @@ public enum Permission {
     USER_VIEW,
     USER_CREATE,
     USER_UPDATE,
-    USER_DELETE
+    POST_CREATOR, USER_DELETE
 }
