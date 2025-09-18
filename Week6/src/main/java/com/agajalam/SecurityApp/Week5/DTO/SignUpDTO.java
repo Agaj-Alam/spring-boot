@@ -1,5 +1,6 @@
 package com.agajalam.SecurityApp.Week5.DTO;
 
+import com.agajalam.SecurityApp.Week5.entities.enums.Permission;
 import com.agajalam.SecurityApp.Week5.entities.enums.Role;
 import lombok.Data;
 
@@ -12,4 +13,5 @@ public class SignUpDTO {
     private String password;
 
     private Set<Role> roles;
+    private Set<Permission> permissions ;
 }
