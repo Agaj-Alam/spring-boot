@@ -14,7 +14,7 @@ public class PostSecurity {
 
     boolean isOwnerOfPost(Long postId){
         User user= (User) SecurityContextHolder.getContext().getAuthentication();
-        PostDTO post=postService.getPostById(postId) ;
+        PostDTO post=postService.getPostById(postId);
         return post.getUserDTO().getId().equals(user.getId());
     }
 }
