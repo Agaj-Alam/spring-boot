@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 public class PostSecurity {
     private final PostService postService;
 
-    boolean isOwnerOfPost(Long postId){
-        User user= (User) SecurityContextHolder.getContext().getAuthentication();
+   public boolean isOwnerOfPost(Long postId){
+        User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PostDTO post=postService.getPostById(postId);
-        return post.getUserDTO().getId().equals(user.getId());
+        return post.getAuthor().getId().equals(user.getId());
     }
 }
