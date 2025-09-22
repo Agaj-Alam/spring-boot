@@ -52,8 +52,8 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtAuthFilter,UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(oauthConfig->oauthConfig
                         .failureUrl("/login?error=true")
-                        .successHandler(oAuth2SuccessHandler));
-//                .formLogin(Customizer.withDefaults());
+                        .successHandler(oAuth2SuccessHandler))
+                .formLogin(Customizer.withDefaults());
 
         return httpSecurity.build();
     }
