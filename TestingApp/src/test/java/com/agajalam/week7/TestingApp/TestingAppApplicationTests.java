@@ -10,4 +10,8 @@ class TestingAppApplicationTests {
 	void contextLoads() {
 	}
 
+    void testNumber2(){
+
+    }
+
 }
