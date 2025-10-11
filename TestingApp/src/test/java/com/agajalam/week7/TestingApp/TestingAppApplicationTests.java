@@ -69,7 +69,7 @@ class TestingAppApplicationTests {
             return  a /b;
         }catch (ArithmeticException e){
             log.error("Arithmetic exception occurred "+e.getLocalizedMessage());
-            throw new ArithmeticException("tried to divide by zero");
+            throw new ArithmeticException("tried to divide by zero") ;
         }
     }
 
