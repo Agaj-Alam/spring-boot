@@ -6,6 +6,9 @@ import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
 @SpringBootTest
 @Slf4j
 class TestingAppApplicationTests {
@@ -34,17 +37,40 @@ class TestingAppApplicationTests {
 
 //        Assertions.assertEquals(6,result);
 
-        Assertions.assertThat(result).isEqualTo(7).isCloseTo(9, Offset.offset(3));
+//        assertThat(result)
+//                .isEqualTo(6)
+//                .isCloseTo(9, Offset.offset(3));
+
+        assertThat("Apple")
+                .isEqualTo("Apple")
+                .startsWith("App")
+                .endsWith("le")
+                .hasSize(5);
 	}
 
     @Test
 //    @DisplayName("DisplayTestNameTwo")
-    void testNumber2(){
-        log.info("test number two ");
+    void testDivideTwoNumbers_whenDenominatorIsZero_ThenArithmeticException(){
+        int a=5;
+        int b=0;
+
+      assertThatThrownBy(()->divideTwoNumbers(a,b))
+              .isInstanceOf(ArithmeticException.class)
+              .hasMessage("tried to divide by zero");
     }
+
+
 
     int addTwoNumbers(int a, int b){
         return a+b;
+    }
+    double divideTwoNumbers(int a, int b){
+        try{
+            return  a /b;
+        }catch (ArithmeticException e){
+            log.error("Arithmetic exception occurred "+e.getLocalizedMessage());
+            throw new ArithmeticException("tried to divide by zero");
+        }
     }
 
 }
