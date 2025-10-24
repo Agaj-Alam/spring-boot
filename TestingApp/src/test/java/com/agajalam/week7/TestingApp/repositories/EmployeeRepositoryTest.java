@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @Import(TestContainerConfiguration.class)
 @DataJpaTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class EmployeeRepositoryTest {
 
     @Autowired
