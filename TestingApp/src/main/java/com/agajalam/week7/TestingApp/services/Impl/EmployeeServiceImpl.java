@@ -28,6 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     log.error("Employee not found with id: {}",id);
                     return new ResourceNotFoundExceptions("Employee not found with id: "+id);
                 });
+        log.info("Successfully fetched employee by id");
         return modelMapper.map(employee,EmployeeDto.class);
     }
 
@@ -41,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         Employee newEmployee=modelMapper.map(employeeDto,Employee.class);
         Employee savedEmployee=employeeRepository.save(newEmployee);
-        log.info("employee saved successfully with id: {}",savedEmployee.getId());
+        log.info("successfully created new employee with id: {}",savedEmployee.getId());
         return modelMapper.map(savedEmployee, EmployeeDto.class);
     }
 
