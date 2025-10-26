@@ -16,8 +16,8 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@Import(TestContainerConfiguration.class)
 @DataJpaTest
+@Import(TestContainerConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class EmployeeRepositoryTest {
 
