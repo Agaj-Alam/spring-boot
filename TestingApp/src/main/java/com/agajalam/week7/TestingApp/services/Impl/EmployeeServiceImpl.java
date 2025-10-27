@@ -60,8 +60,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new RuntimeException("employee email cannot be updated");
         }
 
-        employeeDto.setId(null);
         modelMapper.map(employeeDto,employee);
+        employee.setId(id);
 
         Employee savedEmployee=employeeRepository.save(employee);
         log.info("Successfully updated employee with id: {}",id);
@@ -74,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         boolean exists=employeeRepository.existsById(id);
         if(!exists){
             log.error("employee not found with id: {}",id);
-            throw new ResourceNotFoundExceptions("employee not found with id: {}"+id);
+            throw new ResourceNotFoundExceptions("employee not found with id: "+id);
         }
         employeeRepository.deleteById(id);
         log.info("Employee deleted successfully with id:{}",id);

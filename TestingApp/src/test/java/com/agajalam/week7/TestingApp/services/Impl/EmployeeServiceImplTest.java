@@ -20,8 +20,7 @@ import org.springframework.context.annotation.Import;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.mockito.Mockito.*;
 
 @Import(TestContainerConfiguration.class)
@@ -143,6 +142,49 @@ class EmployeeServiceImplTest {
 
         verify(employeeRepository).findById(mockEmployeeDto.getId());
         verify(employeeRepository,never()).save(any());
+    }
 
+    @Test
+    void testUpdateEmployee_whenValidEmployee_thenUpdateEmployee(){
+        when(employeeRepository.findById(mockEmployeeDto.getId())).thenReturn(Optional.of(mockEmployee));
+        mockEmployeeDto.setName("Random name");
+        mockEmployeeDto.setSalary(1990L);
+
+        Employee newEmployee=modelMapper.map(mockEmployeeDto,Employee.class);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(newEmployee);
+
+//        act
+        EmployeeDto updatedEmployeeDto=employeeService.updateEmployee(mockEmployeeDto.getId(),mockEmployeeDto);
+
+        assertThat(updatedEmployeeDto).isEqualTo(mockEmployeeDto);
+
+        verify(employeeRepository).findById(1L);
+        verify(employeeRepository).save(any());
+    }
+
+    @Test
+    void testDeleteEmployee_whenEmployeeDoesNotExists_thenThrowException(){
+//        arrange
+        when(employeeRepository.existsById(1L)).thenReturn(false);
+
+//        act and assert
+        assertThatThrownBy(()->employeeService.deleteEmployee(1L))
+                .isInstanceOf(ResourceNotFoundExceptions.class)
+                .hasMessage("employee not found with id: "+1L);
+
+        verify(employeeRepository).existsById(1L);
+        verify(employeeRepository,never()).deleteById(anyLong());
+    }
+
+    @Test
+    void testDeleteEmployee_whenEmployeeIsValid_thenDeleteEmployee(){
+//        arrange
+        when(employeeRepository.existsById(1L)).thenReturn(true);
+
+//        act and assert
+        assertThatCode(()->employeeService.deleteEmployee(1L))
+                .doesNotThrowAnyException();
+
+        verify(employeeRepository).deleteById(1L);
     }
 }
