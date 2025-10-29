@@ -118,4 +118,19 @@ class EmployeeControllerTestIT {
                 .exchange()
                 .expectStatus().is5xxServerError();
     }
+
+    @Test
+    void testUpdateEmployee_whenEmployeeIsValid_thenUpdateEmployee(){
+        Employee savedEmployee=employeeRepository.save(testEmployee);
+        testEmployeeDto.setName("random name");
+        testEmployeeDto.setEmail("random email");
+
+        webTestClient.put()
+                .uri("/employees/{id}",savedEmployee.getId())
+                .bodyValue(testEmployeeDto)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(EmployeeDto.class)
+                .isEqualTo(testEmployeeDto);
+    }
 }
