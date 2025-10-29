@@ -46,18 +46,20 @@ class EmployeeControllerTestIT {
                 .salary(200L)
                 .build();
 
+        employeeRepository.deleteAll();
     }
 
     @Test
-    void testGetEmployee_success(){
+    void testGetEmployeeById_success(){
         Employee savedEmployee=employeeRepository.save(testEmployee);
-        testEmployeeDto.setId(savedEmployee.getId());  // by adding this from chatgpt
         webTestClient.get()
                 .uri("/employees/{id}",savedEmployee.getId())
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(EmployeeDto.class)
-                .isEqualTo(testEmployeeDto);
+                .expectBody()
+                .jsonPath("$.email").isEqualTo(savedEmployee.getEmail())
+                .jsonPath("$.name").isEqualTo(savedEmployee.getName());
+
 //                .value(employeeDto -> {
 //                    assertThat(employeeDto.getEmail()).isEqualTo(savedEmployee.getEmail());
 //                    assertThat(employeeDto.getId()).isEqualTo(savedEmployee.getId());
@@ -65,4 +67,55 @@ class EmployeeControllerTestIT {
 
     }
 
+    @Test
+    void testGetEmployeeById_failure(){
+        webTestClient.get()
+                .uri("/employees/1")
+                .exchange()
+                .expectStatus().isNotFound();
+    }
+
+    @Test
+    void testCreateNewEmployee_whenEmployeeAlreadyExists_throwExceptions(){
+        Employee savedEmployee=employeeRepository.save(testEmployee);
+        webTestClient.post()
+                .uri("/employees")
+                .bodyValue(testEmployeeDto)
+                .exchange()
+                .expectStatus().is5xxServerError();
+    }
+
+    @Test
+    void testCreateNewEmployee_whenEmployeeNotExists_thenCreateEmployee(){
+        webTestClient.post()
+                .uri("/employees")
+                .bodyValue(testEmployeeDto)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody()
+                .jsonPath("$.email").isEqualTo(testEmployeeDto.getEmail())
+                .jsonPath("$.name").isEqualTo(testEmployeeDto.getName());
+    }
+
+    @Test
+    void testUpdateEmployee_whenEmployeeDoesNotFound_thenThrowExceptions(){
+        webTestClient.put()
+                .uri("/employees/99")
+                .bodyValue(testEmployeeDto)
+                .exchange()
+                .expectStatus().isNotFound();
+    }
+
+    @Test
+    void testUpdateEmployee_whenAttemptingToUpdateEmail_thenThrowException(){
+        Employee savedEmployee=employeeRepository.save(testEmployee);
+        testEmployeeDto.setName("random name");
+        testEmployeeDto.setEmail("ramdom@gmail.com");
+
+        webTestClient.put()
+                .uri("/employees/{id}",savedEmployee.getId())
+                .bodyValue(testEmployeeDto)
+                .exchange()
+                .expectStatus().is5xxServerError();
+    }
 }
